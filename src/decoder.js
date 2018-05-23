@@ -18,17 +18,19 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-var AV          = require('av');
+// var AV          = require('av');
 var ADTSDemuxer = require('./adts_demuxer');
 var ICStream    = require('./ics');
 var CPEElement  = require('./cpe');
 var CCEElement  = require('./cce');
 var FilterBank  = require('./filter_bank');
 var tables      = require('./tables');
-
-var AACDecoder = AV.Decoder.extend(function() {
-    AV.Decoder.register('mp4a', this);
-    AV.Decoder.register('aac ', this);
+var Bitstream   = require('./bitstream');
+var Stream      = require('./stream');
+var AVDecoder   = require('./avdecoder');
+var AACDecoder = AVDecoder.extend(function() {
+    AVDecoder.register('mp4a', this);
+    AVDecoder.register('aac ', this);
     
     // AAC profiles
     const AOT_AAC_MAIN = 1, // no
@@ -51,8 +53,8 @@ var AACDecoder = AV.Decoder.extend(function() {
     }
     
     this.prototype.setCookie = function(buffer) {
-        var data = AV.Stream.fromBuffer(buffer),
-            stream = new AV.Bitstream(data);
+        var data = Stream.fromBuffer(buffer),
+            stream = new Bitstream(data);
         
         this.config = {};
         

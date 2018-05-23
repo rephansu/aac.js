@@ -2,7 +2,7 @@
   "name": "aac",
   "version": "0.1.3",
   "description": "An AAC decoder for Aurora.js",
-  "main": "src/decoder.js",
+  "main": "src/module.js",
   "peerDependencies": {
     "av": "~0.4.0"
   },

@@ -1,8 +1,10 @@
-var AV = require('av');
+//var AV = require('av');
+var Bitstream = require('./bitstream');
 var tables = require('./tables');
-
-var ADTSDemuxer = AV.Demuxer.extend(function() {
-    AV.Demuxer.register(this);
+var AVBuffer = require('./buffer');
+var AVDemuxer = require('./demuxer');
+var ADTSDemuxer = AVDemuxer.extend(function() {
+    AVDemuxer.register(this);
     
     this.probe = function(stream) {
         var offset = stream.offset;
@@ -20,7 +22,7 @@ var ADTSDemuxer = AV.Demuxer.extend(function() {
     };
         
     this.prototype.init = function() {
-        this.bitstream = new AV.Bitstream(this.stream);
+        this.bitstream = new Bitstream(this.stream);
     };
     
     // Reads an ADTS header
@@ -67,7 +69,7 @@ var ADTSDemuxer = AV.Demuxer.extend(function() {
             var cookie = new Uint8Array(2);
             cookie[0] = (header.profile << 3) | ((header.samplingIndex >> 1) & 7);
             cookie[1] = ((header.samplingIndex & 1) << 7) | (header.chanConfig << 3);
-            this.emit('cookie', new AV.Buffer(cookie));
+            this.emit('cookie', new AVBuffer(cookie));
             
             this.stream.seek(offset);
             this.sentHeader = true;
