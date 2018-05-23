@@ -1,6 +1,7 @@
 browser: src/*.js
 	mkdir -p build/
 	./node_modules/.bin/browserify \
+		--standalone JSMpeg.Decoder.AACDecoder \
 		--extension .coffee \
 		--transform browserify-shim \
 		--debug \
