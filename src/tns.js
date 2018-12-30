@@ -119,7 +119,7 @@ TNS.prototype.process = function(ics, data, decode) {
         
         for (var filt = 0; filt < nFilt_w; filt++) {
             var top = bottom,
-                bottom = Math.max(0, tmp - length_w[filt]),
+                bottom = Math.max(0, top - length_w[filt]),
                 order = order_w[filt];
                 
             if (order === 0) continue;
